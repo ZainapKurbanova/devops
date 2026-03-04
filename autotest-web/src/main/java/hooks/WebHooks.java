@@ -5,6 +5,7 @@ import com.codeborne.selenide.WebDriverRunner;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
+import io.cucumber.java.BeforeStep;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.aeonbits.owner.ConfigFactory;
@@ -13,6 +14,8 @@ import ru.lanit.at.web.pagecontext.Environment;
 import ru.lanit.at.web.properties.WebConfigurations;
 
 import java.util.concurrent.TimeUnit;
+
+import static com.codeborne.selenide.Selenide.$;
 
 public class WebHooks {
 
@@ -59,5 +62,11 @@ public class WebHooks {
     public void close() {
         WebDriverRunner.closeWebDriver();
         Environment.demountDriver();
+    }
+    @BeforeStep
+    public void acceptCookies() {
+        if ($("#L2AGLb").exists()) {
+            $("#L2AGLb").click();
+        }
     }
 }
