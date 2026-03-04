@@ -9,10 +9,13 @@ import io.cucumber.java.BeforeStep;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.aeonbits.owner.ConfigFactory;
+import org.openqa.selenium.chrome.ChromeOptions;
 import ru.lanit.at.utils.ErrorMessage;
 import ru.lanit.at.web.pagecontext.Environment;
 import ru.lanit.at.web.properties.WebConfigurations;
 
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import static com.codeborne.selenide.Selenide.$;
@@ -55,6 +58,9 @@ public class WebHooks {
         Configuration.pollingInterval = cfg.pollingTimeoutMs();
         Configuration.reportsFolder = System.getProperty("selenide.report.folder");
         Configuration.downloadsFolder = System.getProperty("selenide.download.folder");
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--disable-features=PrivacySandboxSettings4");
+        Configuration.browserCapabilities = options;
         Environment.initPages(cfg.pagesPackage());
     }
 
@@ -63,10 +69,5 @@ public class WebHooks {
         WebDriverRunner.closeWebDriver();
         Environment.demountDriver();
     }
-    @BeforeStep
-    public void acceptCookies() {
-        if ($("#L2AGLb").exists()) {
-            $("#L2AGLb").click();
-        }
-    }
+
 }
